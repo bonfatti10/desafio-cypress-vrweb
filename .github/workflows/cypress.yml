@@ -3,31 +3,32 @@ name: Run Cypress Tests
 on:
   push:
     branches:
-      - main 
+      - main  # Execute os testes quando houver push na branch main
   pull_request:
     branches:
-      - main  
+      - main  # Execute os testes quando houver um PR para a branch main
 
 jobs:
   cypress-tests:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest  # Usando Ubuntu para o ambiente de execução
 
     steps:
-
+    # Passo 1: Check out o código do repositório
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    # Passo 2: Configurar o Node.js 18
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '18'
+        node-version: '18'  # Configura o Node.js 18
 
-
+    # Passo 3: Instalar as dependências do projeto
     - name: Install dependencies
       run: |
-        npm install
-        npx cypress install  # Instala o Cypress, se necessário
+        npm install  # Instala todas as dependências do projeto
 
+    # Passo 4: Rodar os testes Cypress
     - name: Run Cypress tests
       run: |
-        npm run test # Ou o comando que você usa para rodar os testes
+        npx cypress run  # Executa os testes Cypress
