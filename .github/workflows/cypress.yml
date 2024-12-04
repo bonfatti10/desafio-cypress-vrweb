@@ -3,32 +3,46 @@ name: Run Cypress Tests
 on:
   push:
     branches:
-      - main  # Execute os testes quando houver push na branch main
+      - main  # Executa os testes quando houver push para a branch main
   pull_request:
     branches:
-      - main  # Execute os testes quando houver um PR para a branch main
+      - main  # Executa os testes quando houver um PR para a branch main
 
 jobs:
   cypress-tests:
-    runs-on: ubuntu-latest  # Usando Ubuntu para o ambiente de execução
+    runs-on: ubuntu-latest
 
     steps:
-    # Passo 1: Check out o código do repositório
+    # Passo 1: Checkout do código
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    # Passo 2: Configurar o Node.js 18
+    # Passo 2: Configurar o Node.js
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '18'  # Configura o Node.js 18
+        node-version: '18'
 
-    # Passo 3: Instalar as dependências do projeto
+    # Passo 3: Instalar as dependências
     - name: Install dependencies
       run: |
-        npm install  # Instala todas as dependências do projeto
+        npm install
 
-    # Passo 4: Rodar os testes Cypress
+    # Passo 4: Instalar o Cypress binário (caso não esteja presente)
+    - name: Install Cypress binary
+      run: |
+        npx cypress install
+
+    # Passo 5: Rodar os testes Cypress
     - name: Run Cypress tests
       run: |
-        npx cypress run  # Executa os testes Cypress
+        npx cypress run
+
+    # Passo 6: Cache do Cypress para otimizar o processo
+    - name: Cache Cypress binary
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/Cypress
+        key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-cypress-
