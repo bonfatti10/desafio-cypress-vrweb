@@ -1,0 +1,18 @@
+{
+  "name": "desafio-cypresweb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+  "e2e": "cypress run --env allure=true",
+  "report:allure": "allure generate allure-results --clean -o allure-report && allure open allure-report",
+  "test:allure": "npm run e2e && npm run report:allure"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@shelex/cypress-allure-plugin": "^2.40.2",
+    "cypress": "^13.16.0"
+  }
+}
